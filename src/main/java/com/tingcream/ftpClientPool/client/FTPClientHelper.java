@@ -10,7 +10,7 @@ import com.tingcream.ftpClientPool.util.ByteUtil;
 
 /**
  * ftp客户端辅助bean  
- * 
+ * bb 
  * @author jelly
  *
  */

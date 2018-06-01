@@ -1,11 +1,12 @@
-
-1、在你的spring主配置文件中引入spring-ftpClientPool.xml配置文件
+﻿1、下载jar包 ftpClientPool-xx.jar(我用maven编译好的jar包)到你的工程lib中，或者下载此项目源码后在本地编译亦可。
+     
+2、在你的spring主配置文件中引入spring-ftpClientPool.xml配置文件
 
 	    示例如下：
 	 <import resource="classpath:spring-ftpClientPool.xml"/>
 	 
  
-2、在你的 spring主配置文件中新载入一个ftpPoolConfig.properties配置
+3、在你的 spring主配置文件中新载入一个ftpPoolConfig.properties配置
 	    示例如下：
 	   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
 		  <property name="locations"> 
@@ -20,9 +21,9 @@
 		    </list> 
 		  </property> 
 		</bean>
-3、在你的工程classpath中新加ftpPoolConfig.properties属性配置文件
+4、在你的工程classpath中新加ftpPoolConfig.properties属性配置文件
 
-4、在你的spring工程中如何使用此模块(ftpClientPool)
+5、在你的spring工程中如何使用此模块(ftpClientPool)
 	    示例1:
 	    @Resource  
 	    private  FTPClientHelper  ftpClientHelper ;// 注入ftp客户端helper对象   使用

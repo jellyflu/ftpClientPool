@@ -27,7 +27,8 @@
 		  </property> 
 		</bean>
 4、在你的工程classpath中新加ftpPoolConfig.properties属性配置文件
-示例： 
+
+示例：  
 
 ```
 ftp.host=127.0.0.1

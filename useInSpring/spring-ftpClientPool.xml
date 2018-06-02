@@ -16,8 +16,6 @@
           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
           http://www.springframework.org/schema/cache
           http://www.springframework.org/schema/cache/spring-cache-4.3.xsd">
-     
-   
     
     
       <!-- ftp连接池配置参数 -->

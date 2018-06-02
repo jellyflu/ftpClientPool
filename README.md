@@ -8,7 +8,73 @@
 	    示例如下：   
       
 	 <import resource="classpath:spring-ftpClientPool.xml"/>
-	 
+   
+   spring-ftpClientPool.xml 配置如下：
+   
+   ```
+   <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-4.3.xsd
+          http://www.springframework.org/schema/aop
+          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+          http://www.springframework.org/schema/cache
+          http://www.springframework.org/schema/cache/spring-cache-4.3.xsd">
+    
+    <beans>
+      <!-- ftp连接池配置参数 -->
+     <bean id="ftpPoolConfig" class="com.tingcream.ftpClientPool.config.FtpPoolConfig">
+           <property name="host" value="${ftp.host}"/>
+           <property name="port" value="${ftp.port}"/>
+           <property name="username" value="${ftp.username}"/>
+           <property name="password" value="${ftp.password}"/>
+           
+           <property name="connectTimeOut" value="${ftp.connectTimeOut}"/>
+           <property name="controlEncoding" value="${ftp.controlEncoding}"/>
+           <property name="bufferSize" value="${ftp.bufferSize}"/>
+           <property name="fileType" value="${ftp.fileType}"/>
+           <property name="dataTimeout" value="${ftp.dataTimeout}"/>
+           <property name="useEPSVwithIPv4" value="${ftp.useEPSVwithIPv4}"/>
+           <property name="passiveMode" value="${ftp.passiveMode}"/>
+           
+           <property name="blockWhenExhausted" value="${ftp.blockWhenExhausted}"/>
+           <property name="maxWaitMillis" value="${ftp.maxWaitMillis}"/>
+           <property name="maxTotal" value="${ftp.maxTotal}"/>
+           <property name="maxIdle" value="${ftp.maxIdle}"/>
+           <property name="testOnBorrow" value="${ftp.testOnBorrow}"/>
+           <property name="testOnReturn" value="${ftp.testOnReturn}"/>
+           <property name="testOnCreate" value="${ftp.testOnCreate}"/>
+           <property name="testWhileIdle" value="${ftp.testWhileIdle}"/>
+     </bean>
+      <!-- ftp客户端工厂 -->
+     <bean id="ftpClientFactory" class="com.tingcream.ftpClientPool.core.FTPClientFactory">
+          <property name="ftpPoolConfig" ref="ftpPoolConfig"></property>
+     </bean>
+     
+     <!-- ftp客户端连接池对象 -->
+     <bean id="ftpClientPool" class="com.tingcream.ftpClientPool.core.FTPClientPool">
+         <constructor-arg index="0" ref="ftpClientFactory"></constructor-arg>
+     </bean> 
+    
+     <!-- ftp客户端辅助bean-->
+      <bean id="ftpClientHelper" class="com.tingcream.ftpClientPool.client.FTPClientHelper">
+           <property name="ftpClientPool"  ref="ftpClientPool"/>
+      </bean>
+     
+</beans>
+ ```
+  
+  
  
 3、在你的 spring主配置文件中新载入一个ftpPoolConfig.properties配置
 	    示例如下：

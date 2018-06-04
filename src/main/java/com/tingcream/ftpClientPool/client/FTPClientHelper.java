@@ -4,18 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
 
 import com.tingcream.ftpClientPool.core.FTPClientPool;
 import com.tingcream.ftpClientPool.util.ByteUtil;
 
 /**
  * ftp客户端辅助bean  
- *  dd ee
  * @author jelly
  *
  */
 public class FTPClientHelper {
-	
+	private static Logger logger =Logger.getLogger(FTPClientHelper.class);
 
 	private FTPClientPool  ftpClientPool;
 
@@ -24,7 +24,7 @@ public class FTPClientHelper {
 	}
 	
     /**
-     * 下载 remote文件流  
+     * 下载remote文件流  
      * @param remote 远程文件
      * @return 字节数据
      * @throws Exception
@@ -39,7 +39,10 @@ public class FTPClientHelper {
 	    	//  long end =System.currentTimeMillis();
 	    	 // System.out.println("ftp下载耗时(毫秒):"+(end-start));
 	    	return   ByteUtil.inputStreamToByteArray(in);
-		 }finally{
+		 } catch(Exception e){
+				logger.error("下载remote文件流失败",e);
+				throw e;
+		 } finally{
 			  if (in != null) {  
 	                in.close();  
 	            } 
@@ -65,7 +68,10 @@ public class FTPClientHelper {
 	    try {
 	    	client=	ftpClientPool.borrowObject();
 			return  client.makeDirectory(pathname);
-		}  finally{
+		} catch(Exception e){
+			logger.error("创建目录失败",e);
+			throw e;
+		} finally{
 			ftpClientPool.returnObject(client);
 		}
 	}
@@ -81,7 +87,10 @@ public class FTPClientHelper {
 	    try {
 	    	client=	ftpClientPool.borrowObject();
 			return  client.removeDirectory(pathname);
-		} finally{
+		} catch(Exception e){
+			logger.error("删除目录失败",e);
+			throw e;
+		}  finally{
 			ftpClientPool.returnObject(client);
 		}
 	}
@@ -98,7 +107,10 @@ public class FTPClientHelper {
 	    try {
 	    	client=	ftpClientPool.borrowObject();
 			return  client.deleteFile(pathname);
-		}finally{
+		} catch(Exception e){
+			logger.error("创建文件失败",e);
+			throw e;
+		} finally{
 			ftpClientPool.returnObject(client);
 		}
 	}
@@ -115,7 +127,10 @@ public class FTPClientHelper {
 	    try {
 	    	client=	ftpClientPool.borrowObject();
 			return  client.storeFile(remote, local);
-		} finally{
+		} catch(Exception e){
+			logger.error("上传文件失败",e);
+			throw e;
+		}  finally{
 			ftpClientPool.returnObject(client);
 		}
 	}

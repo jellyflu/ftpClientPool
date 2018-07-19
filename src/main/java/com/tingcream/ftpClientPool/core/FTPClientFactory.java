@@ -97,30 +97,12 @@ public class FTPClientFactory extends BasePooledObjectFactory<FTPClient> {
         try {
             connect = ftpClient.sendNoOp();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	logger.error("验证ftp连接对象,返回false");
         }
         return connect;
     }
     
 
-    /**
-     *  No-op.
-     *
-     *  @param p ignored
-     */
-    @Override
-    public void activateObject(PooledObject<FTPClient> p) throws Exception {
-        // The default implementation is a no-op.
-    }
-
-    /**
-     *  No-op.
-     *
-     * @param p ignored
-     */
-    @Override
-    public void passivateObject(PooledObject<FTPClient> p)
-        throws Exception {
-        // The default implementation is a no-op.
-    }
+   
 }

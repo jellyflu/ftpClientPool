@@ -33,27 +33,34 @@ public class FTPClientHelper {
 		FTPClient client=null;
 		InputStream in =null;
 	    try {
-	    	//  long start =System.currentTimeMillis();
+	    	  long start =System.currentTimeMillis();
 	    	   client=	ftpClientPool.borrowObject();
 	    	   in=client.retrieveFileStream(remote);
-	    	//  long end =System.currentTimeMillis();
-	    	 // System.out.println("ftp下载耗时(毫秒):"+(end-start));
-	    	return   ByteUtil.inputStreamToByteArray(in);
-		 } catch(Exception e){
-				logger.error("下载remote文件流失败",e);
-				throw e;
-		 } finally{
+             
+	    	  long end =System.currentTimeMillis();
+	    	  System.out.println("ftp下载耗时(毫秒):"+(end-start));
+	    	
+	    	  if(in != null){
+	    		  return   ByteUtil.inputStreamToByteArray(in);
+	    	  }else{
+	    		  return new byte[0];
+	    	  }
+	    	  
+	    	 
+		}catch(Exception e){
+			logger.error("获取ftp下载流异常",e);
+		}finally{
 			  if (in != null) {  
 	                in.close();  
 	            } 
-            if (!client.completePendingCommand()) {  
-            	client.logout();  
-            	client.disconnect();  
-            	ftpClientPool.getPool().invalidateObject(client);
-            } 
+			  if(client != null){
+				  client.logout();  
+				  client.disconnect();
+			  }
+			  
 			ftpClientPool.returnObject(client);
-			 
 		}
+	    return null;
 	}
 	
 	/**
